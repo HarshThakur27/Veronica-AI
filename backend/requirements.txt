@@ -1,0 +1,15 @@
+deepagents
+langchain
+langchain-groq
+ipykernel
+tavily-python
+python-dotenv
+fastapi
+langchain-community
+uvicorn
+langchain-tavily
+chromadb
+pypdf
+pymupdf
+sentence-transformers
+langchain-core
