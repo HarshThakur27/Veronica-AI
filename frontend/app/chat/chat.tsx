@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 export default function Chat() {
     const [data, setdata] = React.useState<{ role: string, content: string, fileName?: string }[]>([])
     const [query, setquery] = React.useState<string>("")
@@ -27,7 +27,7 @@ export default function Chat() {
 
     async function fetchthread() {
     try {
-        const res = await fetch("http://127.0.0.1:8000/threads")
+        const res = await fetch(`${API_URL}/threads`)
         const data = await res.json()
         setthread(data)   // yeh await ke baad hai, technically async hai
     } catch (err) {
@@ -42,7 +42,7 @@ export default function Chat() {
 
     async function loadThread(threadId: string) {
         setThreadid(threadId);
-        const res = await fetch(`http://127.0.0.1:8000/history/${threadId}`);
+        const res = await fetch(`${API_URL}/history/${threadId}`);
         const history = await res.json();
         setdata(history);
         setIsSidebarOpen(false); // Auto close sidebar on mobile selection
@@ -51,7 +51,7 @@ export default function Chat() {
     async function deleteThread(e: React.MouseEvent, targetThreadId: string) {
         e.stopPropagation(); // Stop thread load event
         try {
-            await fetch(`http://127.0.0.1:8000/thread/${targetThreadId}`, {
+            await fetch(`${API_URL}/thread/${targetThreadId}`, {
                 method: "DELETE",
             });
             setthread(prev => prev.filter(item => item.thread_id !== targetThreadId));
@@ -130,14 +130,14 @@ export default function Chat() {
                 const formData = new FormData();
                 formData.append("file", currentFile);
                 formData.append("thread_id", threadid);
-                await fetch("http://127.0.0.1:8000/upload", {
+                await fetch(`${API_URL}/upload`, {
                     method: "POST",
                     body: formData,
                     signal: controller.signal,
                 });
             }
 
-            const response = await fetch("http://127.0.0.1:8000/chat", {
+            const response = await fetch(`${API_URL}/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: textToSend, thread_id: threadid }),
