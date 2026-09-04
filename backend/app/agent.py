@@ -124,7 +124,6 @@ def askquery(query:str, thread_id:str):
 
 
 
-"""
 
 
 
