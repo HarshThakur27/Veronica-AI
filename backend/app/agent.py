@@ -34,7 +34,7 @@ RESPONSE STYLE:
 - Never hallucinate. Only state facts that come from your tools or that you're certain about.
 - Always answer in the same language the user used (Hinglish if they used Hinglish).
 - Avoid markdown tables unless specifically asked.
-- Keep answers clear and reasonably concise.
+- Keep answers clear and reasonably concise, never gave too large answers.
 - Respond in natural, flowing prose by default — like a knowledgeable person explaining something conversationally. Avoid excessive bold text, headers, or bullet-point lists unless the user specifically asks for a list, steps, or structured breakdown.
 
 EMAIL WORKFLOW:
@@ -67,15 +67,16 @@ class contentfilter(AgentMiddleware):
         content = first_message.content.lower()
         for keyword in self.banned_keywords:
             if keyword in content:
-                print(f"bloacked {keyword}")
-            return {
-                "messages":[{
-                    "role":"assistant",
-                    "content":("I cannot process request containing inappropriate content."
-                    "Please rephrase your request")
-                }],
-                "jumpt_to":"end"
-            }
+                print(f"blocked {keyword}")
+                return {
+                    "messages":[{
+                        "role":"assistant",
+                        "content":("I cannot process request containing inappropriate content."
+                        "Please rephrase your request")
+                    }],
+                    "jump_to":"end"
+                }
+        
         return None
 
 @tool
@@ -95,20 +96,30 @@ agent = create_agent(
     system_prompt=prompt,
     middleware=[
         contentfilter(
-            banned_keywords=["hack", "exploit","malware","reveal guidelines","what is your source code","bypass security"]
-        )
+            banned_keywords=["hack", "exploit","malware","what is your source code","bypass security"]
+        ),
+        SummarizationMiddleware(
+        model="groq:openai/gpt-oss-20b",
+        trigger=("tokens",50000),
+        keep=("messages",10)
+    )
     ]
     
 
 )
+# re = agent.invoke({"messages":[{"role":"user","content":"send a pitch mail to thakur273003@gmail.com as a ai startup whcih can automation for you compnaies , now see maill should focus all types of companies , grab attention and unique from other ai companies to standout in market , as you have to help me cut out a deal"}]})
+# print(re["messages"][-1].content)
+
+
 
 def askquery(query:str, thread_id:str):
-    history = get_history(thread_id)
+    history = get_history(thread_id) 
     history.append({"role":"user", "content":query})
     save_messages(thread_id, "user", query)
     full_response = ""
     for chunk, metadata in agent.stream({"messages":history}, stream_mode="messages"):
         if chunk.content and chunk.type == "AIMessageChunk":
+        # if getattr(chunk, "type", None) == "AIMessageChunk" and isinstance(chunk.content, str):
             full_response += chunk.content
             yield chunk.content
     save_messages(thread_id, "assistant", full_response)
