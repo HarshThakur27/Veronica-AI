@@ -126,3 +126,18 @@ def askquery(query:str, thread_id:str):
 # print(askquery("what todays latest news in delhi"))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
