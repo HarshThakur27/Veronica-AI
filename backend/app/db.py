@@ -34,4 +34,4 @@ def get_all_threads():
 
 def delete_id(thread_id:str):
     result = chats_collection.delete_many({"thread_id":thread_id})
-    return {"deleted_count":result.delete_count}
+    return {"deleted_count": result.deleted_count}
