@@ -1,3 +1,4 @@
+
 # Veronica AI
 
 An agentic AI research assistant with real-time web search, multi-format RAG (PDF/Excel/URL), persistent multi-turn memory, and a streaming chat UI — built end-to-end as a full-stack GenAI portfolio project.

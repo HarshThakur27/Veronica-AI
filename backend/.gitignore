@@ -12,3 +12,8 @@ wheels/
 .env
 
 app/data/vectorstore/
+
+uploaded_pdfs/
+data/
+.env
+.venv/

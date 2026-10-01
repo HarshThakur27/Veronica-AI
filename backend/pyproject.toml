@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "HarshThakur27", email = "harsh273003@gmail.com" }
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "beautifulsoup4>=4.15.0",
     "chromadb>=1.5.9",
@@ -38,3 +38,11 @@ backend = "backend:main"
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
