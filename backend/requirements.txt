@@ -70,26 +70,26 @@ zstandard==0.25.0
 
 
 
-# fastapi
-# uvicorn[standard]
-# python-multipart
-# python-dotenv
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
 
-# langchain
-# langchain-core
-# langchain-community
-# langchain-text-splitters
-# langchain-groq
-# langgraph
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-groq
+langgraph
 
-# chromadb
-# sentence-transformers
-# torch
-# numpy
-# pandas
-# openpyxl
-# pymupdf
-# beautifulsoup4
+chromadb
+sentence-transformers
+torch
+numpy
+pandas
+openpyxl
+pymupdf
+beautifulsoup4
 
-# tavily-python
-# pymongo
+tavily-python
+pymongo
